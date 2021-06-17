@@ -1,3 +1,4 @@
+<?php ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -8,16 +9,11 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 	</head>
 	<body>
-		<div class="container m-3 p-3">
-			<h1>Please Log in</h1>
-			<form method="POST" class="form">
-				<label class="form-label" for="email"><strong>Email : </strong></label></td>
-				<input type="text" name="email" id="email"><br>
-				<label for="pass"><strong>Password : </strong> </label>
-				<input type="pass" name="pass" id="pass"><br><br>
-				<input type="submit" value="Log In" class="btn btn-primary btn-sm">
-				<input type="submit" name="cancel" value="cancel" class="btn btn-secondary btn-sm">
-			</form>
+		<div class="container-fluid mx-5 mt-4 px-5">
+			<h1>Welcome to Autos Database</h1>
+			<p class="small"><a href="login.php">Please Log In</a></p>
+			<p class="small">Attempt to go to <a href="autos.php">autos.php</a> without logging in - it should fail with an error message.</p>
+			<p class="small"><a href="https://www.wa4e.com/assn/autosdb/">Specification for this Application</a></p>
 		</div>
 		<script src="js/bootstrap.min.js"></script>
 	</body>
