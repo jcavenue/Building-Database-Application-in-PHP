@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="container-fluid mx-5 mt-4 px-5">
-			<h1>Welcome to Autos Database</h1>
+			<h2>Welcome to Autos Database</h2>
 			<p class="small"><a href="login.php">Please Log In</a></p>
 			<p class="small">Attempt to go to <a href="autos.php">autos.php</a> without logging in - it should fail with an error message.</p>
 			<p class="small"><a href="https://www.wa4e.com/assn/autosdb/">Specification for this Application</a></p>

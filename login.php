@@ -19,12 +19,18 @@
 	</head>
 	<body>
 		<div class="container m-3 p-3">
-			<h1>Please Log in</h1>
+			<h2>Please Log in</h2>
 			<form method="POST" class="form">
-				<label class="form-label" for="email"><strong>Email : </strong></label></td>
-				<input type="text" name="email" id="email"><br>
-				<label for="pass"><strong>Password : </strong> </label>
-				<input type="pass" name="pass" id="pass"><br><br>
+				<table>
+					<tr>
+						<td><label class="form-label small" for="email">Email</label></td>
+						<td><input type="text" name="email" id="email"></td>
+					</tr>
+					<tr>
+						<td><label class="form-label small"for="pass">Password</label></td>
+						<td><input type="pass" name="pass" id="pass"></td>
+					</tr>
+				</table><br>
 				<input type="submit" name="Login= "value="Log In" class="btn btn-primary btn-sm">
 				<input type="submit" name="cancel" value="cancel" class="btn btn-secondary btn-sm">
 			</form>
