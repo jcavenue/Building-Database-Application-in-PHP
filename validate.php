@@ -8,4 +8,10 @@
 		}
 		return true;
 	}
+
+	function hashed($pass){
+		$salt = 'XyZzy12*_';
+		return hash('md5', $salt . $pass);
+	}
+
 ?>

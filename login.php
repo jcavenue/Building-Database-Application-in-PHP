@@ -1,4 +1,5 @@
 <?php
+	date_default_timezone_set('Asia/Manila');
 	require_once 'validate.php';
 
 	if(isset($_POST['cancel'])){
@@ -12,7 +13,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>f3a47880</title>
+		<title>5abb1c90</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 	</head>
 	<body>
@@ -20,14 +21,17 @@
 			<h2>Please Log in</h2>
 			<?php
 				if(isset($_POST['Login'])){
-					if(isset($_POST['who']) && empty($_POST['pass'])){
+					if(empty($_POST['who']) && empty($_POST['pass'])){
 						echo '<p class="text-danger small">Email and password are required</p>';
 					} else if(validate($_POST['pass']) == false){
+						error_log("Login fail ".$_POST['who']. hashed($_POST['pass']));
 						echo '<p class="text-danger small">Incorrect password</p>';
 					} else if (filter_var($_POST['who'], FILTER_VALIDATE_EMAIL) == false){
 						echo '<p class="text-danger small">Email must have an at-sign (@)</p>';
 					} else {
-						header("Location: autos.php?name=".urlencode($_POST['who']));
+						$who = htmlentities($_POST['who']);
+						error_log("Login success ".$_POST['who']);
+						header("Location: autos.php?name=".urlencode($who));
 					}
 				}
 
