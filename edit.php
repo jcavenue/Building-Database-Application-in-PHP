@@ -1,31 +1,28 @@
 <?php
-	require_once 'connect/pdo.php';
+	require_once "connect/pdo.php";
 	session_start();
-	if ( !isset($_SESSION['name']) ) {
-   		die('ACCESS DENIED');
-	}
 
 	if(isset($_POST['cancel'])){
 		header('Location: index.php');
 	}
 
-	if(isset($_POST['add'])){
-
+	if ( isset($_POST['save'])) {
+		
 		if(!$_POST['make'] || !$_POST['model'] || !$_POST['year'] || !$_POST['mileage']){
 			$_SESSION['error'] = 'All fields are required';
-			header('Location: add.php');
+			header('Location: edit.php?autos_id=' . $_POST['autos_id'] );
 			return;
 		} 
 		
 		if(!is_numeric($_POST['year'])){
 			$_SESSION['error'] = 'Year must be numeric';
-			header('Location: add.php');
+			header('Location: edit.php?autos_id=' . $_POST['autos_id']);
 			return;
 		} 
 		
 		if(!is_numeric($_POST['mileage'])){
 			$_SESSION['error'] = 'Mileage must be numeric';
-			header('Location: add.php');
+			header('Location: edit.php?autos_id=' . $_POST['autos_id']);
 			return;
 		} 
 		
@@ -39,7 +36,28 @@
 		header("Location: index.php");
 		return;
 	}
-	
+
+	if ( ! isset($_GET['autos_id']) ) {
+	$_SESSION['error'] = "Missing autos_id";
+	header('Location: index.php');
+	return;
+	}
+
+	$stmt = $pdo->prepare("SELECT * FROM autos where autos_id = :id");
+	$stmt->execute(array(":id" => $_GET['autos_id']));
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	if ( $row === false ) {
+		$_SESSION['error'] = 'Bad value for autos_id';
+		header( 'Location: index.php' ) ;
+		return;
+	}
+
+	$mk = htmlentities($row['make']);
+	$md = htmlentities($row['model']);
+	$yr = htmlentities($row['year']);
+	$ma = htmlentities($row['mileage']);
+	$autos_id = $row['autos_id'];
+
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +71,7 @@
 	</head>
 	<body>
 		<div class="container-fluid mx-5 mt-4 px-5">
-			<h2>Tracking Autos for <?php echo $_SESSION['name'] ?></h2>
+			<h2>Editing Automobile</h2>
 			<?php
 				if(isset($_SESSION['error'])){
 					echo '<p class="text-danger">' . $_SESSION['error'] . "</p>";
@@ -61,14 +79,19 @@
 				}
 			?>
 			<form method="post" class="small">
-				<p>Make: <input type="text" name="make" style="width:40%"></p>
-				<p>Year: <input type="text" name="model"></p>
-				<p>Year: <input type="text" name="year"></p>
-				<p>Mileage: <input type="text" name="mileage"></p>
-				<button type="submit" name="add" value="Add"class="btn btn-secondary btn-sm">Add</button>
-				<button type="submit" name="cancel" class="btn btn-secondary btn-sm">cancel</button>
+				<p>Make:
+				<input type="text" name="make" value="<?= $mk ?>"></p>
+				<p>Model:
+				<input type="text" name="model" value="<?= $md ?>"></p>
+				<p>Year:
+				<input type="text" name="year" value="<?= $yr ?>"></p>
+				<p>Mileage:
+				<input type="text" name="mileage" value="<?= $ma ?>"></p>
+				<input type="hidden" name="autos_id" value="<?= $autos_id ?>">
+				<input type="submit" name="save" value="Save"/> <input type="submit" name="cancel" value="cancel"/>
 			</form>
 		</div>
 		<script src="js/bootstrap.min.js"></script>
 	</body>
 </html>
+

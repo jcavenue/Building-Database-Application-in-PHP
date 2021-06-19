@@ -23,9 +23,8 @@
 			return;
 		} else {
 			$email = htmlentities($_POST['email']);
-			error_log("Login success ". $email);
 			$_SESSION['name'] = $email;
-			header("Location: view.php");
+			header("Location: index.php");
 			return;
 		}
 	}
