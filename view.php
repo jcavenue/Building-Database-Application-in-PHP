@@ -1,6 +1,10 @@
 <?php
+	session_start();
 	require_once 'connect/pdo.php';
 
+	if ( ! isset($_SESSION['name']) ) {
+   		die('Not logged in');
+	}
 
 
 
@@ -16,6 +20,7 @@
 	<body>
 		<div class="container-fluid mx-5 mt-4 px-5">
 			<div class="row">
+				<h2>Tracking Autos for <?php echo $_SESSION['name'] ?></h2>
 				<h3>Automobiles</h3>
 				<?php
 					$stmt = $pdo->query('SELECT make, mileage, year FROM autos');
@@ -31,6 +36,7 @@
 				<?php } ?>
 				</table>
 			</div>
+			<a href="add.php">Add</a> | <a href="logout.php">logout</a>
 		</div>
 		<script src="js/bootstrap.min.js"></script>
 	</body>
