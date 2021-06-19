@@ -29,7 +29,6 @@
 			return;
 		}
 	}
-
 ?>
 
 <!DOCTYPE html>
