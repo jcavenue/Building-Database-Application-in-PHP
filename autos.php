@@ -43,22 +43,7 @@
 				<input type="submit" name="add"value="Add" class="btn btn-secondary btn-sm"> 
 				<input type="submit" name="logout" value="logout" class="btn btn-secondary btn-sm">
 			</form><br><br>
-			<div class="row">
-				<h3>Automobiles</h3>
-				<?php
-					$stmt = $pdo->query('SELECT make, mileage, year FROM autos');
-					$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				?>
-				<table>
-				<?php foreach($row as $rows){ ?>
-					<tr>
-						<td><?php echo $rows['make'] ?></td>
-						<td><?php echo $rows['mileage'] ?></td>
-						<td><?php echo $rows['year'] ?></td>
-					</tr>
-				<?php } ?>
-				</table>
-			</div>
+			
 		</div>
 		<script src="js/bootstrap.min.js"></script>
 	</body>

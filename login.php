@@ -1,10 +1,35 @@
 <?php
+	session_start();
 	date_default_timezone_set('Asia/Manila');
 	require_once 'validate.php';
 
 	if(isset($_POST['cancel'])){
 		header('Location: index.php');
 	}
+
+	if(isset($_POST['Login'])){
+		if(empty($_POST['email']) && empty($_POST['pass'])){
+			$_SESSION['error'] = 'Email and password are required';
+			header("Location: login.php");
+			return;
+		} else if(validate($_POST['pass']) == false){
+			error_log("Login fail ".$_POST['email']. hashed($_POST['pass']));
+			$_SESSION['error'] = 'Incorrect password';
+			header("Location: login.php");
+			return;
+		} else if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false){
+			$_SESSION['error'] = 'Email must have an at-sign (@)';
+			header("Location: login.php");
+			return;
+		} else {
+			$email = htmlentities($_POST['email']);
+			error_log("Login success ". $email);
+			$_SESSION['name'] = $email;
+			header("Location: view.php");
+			return;
+		}
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -20,27 +45,16 @@
 		<div class="container-fluid mx-5 mt-4 px-5">
 			<h2>Please Log in</h2>
 			<?php
-				if(isset($_POST['Login'])){
-					if(empty($_POST['who']) && empty($_POST['pass'])){
-						echo '<p class="text-danger small">Email and password are required</p>';
-					} else if(validate($_POST['pass']) == false){
-						error_log("Login fail ".$_POST['who']. hashed($_POST['pass']));
-						echo '<p class="text-danger small">Incorrect password</p>';
-					} else if (filter_var($_POST['who'], FILTER_VALIDATE_EMAIL) == false){
-						echo '<p class="text-danger small">Email must have an at-sign (@)</p>';
-					} else {
-						$who = htmlentities($_POST['who']);
-						error_log("Login success ".$_POST['who']);
-						header("Location: autos.php?name=".urlencode($who));
-					}
+				if ( isset($_SESSION['error']) ) {
+					echo '<p style="color: red;">' . htmlentities($_SESSION['error']) . "</p>";
+					session_unset();
 				}
-
 			?>
-			<form method="post" class="form">
+			<form action="login.php" method="post" class="form">
 				<table>
 					<tr>
 						<td><label class="form-label small" for="email">User Name</label></td>
-						<td><input type="text" name="who" id="email"></td>
+						<td><input type="text" name="email" id="email"></td>
 					</tr>
 					<tr>
 						<td><label class="form-label small"for="pass">Password</label></td>
